@@ -1,48 +1,32 @@
-const gallery = document.getElementById("gallery");
+import { generateImages } from "./api.js";
+import { renderGallery } from "./gallery.js";
 
 let images = [];
 
-// Функція отримання картинок
-function fetchImages(count = 4) {
-    for (let i = 0; i < count; i++) {
-        const id = Math.floor(Math.random() * 1000);
-        images.push(`https://picsum.photos/id/${id}/400/300`);
-    }
-    renderGallery();
-}
+// початкове завантаження
+images = images.concat(generateImages(4));
+renderGallery(images);
 
-// Функція рендеру галереї
-function renderGallery() {
-    gallery.innerHTML = "";
-    images.forEach(src => {
-        const img = document.createElement("img");
-        img.src = src;
-        gallery.appendChild(img);
-    });
-}
-
-// Кнопка "Завантажити ще 4 картинки"
+// кнопка "Завантажити ще 4"
 document.getElementById("loadMore").addEventListener("click", () => {
-    fetchImages(4);
+    images = images.concat(generateImages(4));
+    renderGallery(images);
 });
 
-// Кнопка "Очистити галерею"
+// очистити галерею
 document.getElementById("clearGallery").addEventListener("click", () => {
     images = [];
-    renderGallery();
+    renderGallery(images);
 });
 
-// Кнопка "Видалити останню картинку"
+// видалити останню
 document.getElementById("removeLast").addEventListener("click", () => {
     images.pop();
-    renderGallery();
+    renderGallery(images);
 });
 
-// Кнопка "Перевернути галерею"
+// перевернути
 document.getElementById("reverseGallery").addEventListener("click", () => {
     images.reverse();
-    renderGallery();
+    renderGallery(images);
 });
-
-// Початкове завантаження
-fetchImages(4);
